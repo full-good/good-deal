@@ -3,11 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { MessageModule } from './fullgood/message/message.module';
 
 @Module({
-  imports: [     
+  imports: [  
     ConfigModule.forRoot({
-      isGlobal: true, // עושה את הקונפיגורציה גלובלית
+      isGlobal: true,
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -15,7 +16,8 @@ import { MongooseModule } from '@nestjs/mongoose';
         uri: configService.get<string>('MONGODB_URI'),
       }),
       inject: [ConfigService],
-    })
+    }),
+    MessageModule
   ],
   controllers: [AppController],
   providers: [AppService],
