@@ -7,16 +7,13 @@ export class Message extends Document {
   name: string;
 
   @Prop()
-  email: string;
+  mail: string;
 
   @Prop()
   subject: string;
 
   @Prop()
   content: string;
-
-  // @Prop()
-  // date: Date;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);

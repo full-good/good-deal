@@ -11,7 +11,7 @@ export class MessageService {
     async addMessage(message: Message): Promise<Message> {
         const newMessage = new this.messageModel(message);
         let save: Message;
-        console.log(newMessage.id)
+        // console.log(newMessage.id)
         if (newMessage) {       
             save = await newMessage.save();
         } else {

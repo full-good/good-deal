@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MessageModule } from './message/message.module';
+import { MessageModule } from './fullgood/message/message.module';
 
 @Module({
   imports: [  
