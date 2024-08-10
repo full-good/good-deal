@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MessageModule } from './fullgood/message/message.module';
+import { UserModule } from './fullgood/user/user.module';
 
 @Module({
   imports: [  
@@ -17,7 +18,8 @@ import { MessageModule } from './fullgood/message/message.module';
       }),
       inject: [ConfigService],
     }),
-    MessageModule
+    UserModule,
+    MessageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
