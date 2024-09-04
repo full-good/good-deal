@@ -1,8 +1,9 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
+import { Status } from "./user.dto";
 
 @Schema({ timestamps: true })
-export class Message extends Document {
+export class User extends Document {
   @Prop({
     required: true
   })
@@ -16,12 +17,13 @@ export class Message extends Document {
   @Prop({
     required: true
   })
-  subject: string;
+  password: string;
 
   @Prop({
-    required: true
+    required: true,
+    default: Status.CONNECTED
   })
-  content: string;
+  status: Status;
 }
 
-export const MessageSchema = SchemaFactory.createForClass(Message);
+export const UserSchema = SchemaFactory.createForClass(User);

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Message } from './message.dto';
 import { Model } from 'mongoose';
@@ -11,12 +11,10 @@ export class MessageService {
     async addMessage(message: Message): Promise<Message> {
         const newMessage = new this.messageModel(message);
         let save: Message;
-        // console.log(newMessage.id)
-        if (newMessage) {       
+        if (newMessage)     
             save = await newMessage.save();
-        } else {
-            return null;
-        }
+        else
+            throw new HttpException("ההודעה לא הוכנסה למערכת", HttpStatus.BAD_REQUEST);
         return save;   
     }
 
