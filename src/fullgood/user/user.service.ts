@@ -29,6 +29,8 @@ export class UserService {
 
     async getUserById(userId: ObjectId): Promise<User> {
         const user = await this.userModel.findById({_id: userId});
+        if(!user)
+            throw new HttpException("משתמש לא קיים", HttpStatus.BAD_REQUEST);
         if(user.status === Status.DETACHED)
             throw new HttpException("המשתמש לא מחובר למערכת", HttpStatus.BAD_REQUEST);
         if(user.status === Status.BLOCKED)
@@ -38,12 +40,11 @@ export class UserService {
 
     async getUserByMailAndPassword(mail: string, password: string): Promise<User> {
         const user = await this.userModel.findOne({mail, password});
+        if(!user)
+            throw new HttpException("מייל או סיסמא שגויים", HttpStatus.BAD_REQUEST);
         if(user.status === Status.BLOCKED)
             throw new HttpException("המשתמש נמחק", HttpStatus.BAD_REQUEST);
-        if(user)
-            await this.userModel.findByIdAndUpdate(user, {status: Status.CONNECTED}, {new: true})
-        else
-            throw new HttpException("מייל או סיסמא שגויים", HttpStatus.BAD_REQUEST);
+        await this.userModel.findByIdAndUpdate(user, {status: Status.CONNECTED}, {new: true})
         return user;
     }
 
