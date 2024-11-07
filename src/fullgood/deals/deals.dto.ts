@@ -8,8 +8,6 @@ export class Deal {
     logo:string;
     status:Status;
   }
-
-  
   export enum Status{
     CONNECTED,
     DETACHED,
