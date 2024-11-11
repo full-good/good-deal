@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
-import { Status } from "./user.dto";
+import { Status } from "../generic/status";
 
 @Schema({ timestamps: true })
 export class User extends Document {

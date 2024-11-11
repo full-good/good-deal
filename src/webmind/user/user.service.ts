@@ -1,19 +1,17 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, Status } from './user.dto';
+import { User } from './user.dto';
+import { Status } from '../generic/status';
 import { Model, ObjectId } from 'mongoose';
 
 @Injectable()
 export class UserService {
-        
     constructor(@InjectModel("User")private readonly userModel: Model<User>) { }
 
     async addUser(user: User): Promise<User> {
-        const regexmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-        if (!regexmail.test(user.mail))
-          throw new HttpException("מייל לא תקין", HttpStatus.BAD_REQUEST);
+        this.validUserDetails(user);
         if (await this.userModel.findOne({ mail: user.mail }))
-          throw new HttpException("מייל זה קיים במערכת", HttpStatus.BAD_REQUEST);
+            throw new HttpException("מייל זה קיים במערכת", HttpStatus.BAD_REQUEST);
         const newUser = new this.userModel(user);
         let save: User;
         if (newUser)
@@ -49,16 +47,24 @@ export class UserService {
     }
 
     async updateUserDetails(userId: ObjectId, user: User): Promise<User> {
-        const user1 = this.getUserById(userId);
+        this.validUserDetails(user);
+        const user1 = await this.getUserById(userId);
         return await this.userModel.findByIdAndUpdate(user1, user, {new: true});
     }
 
     async updateUserStatus(userId: ObjectId): Promise<User> {
-        const user = this.getUserById(userId);
+        const user = await this.getUserById(userId);
         return await this.userModel.findByIdAndUpdate(user, {status: Status.DETACHED}, {new: true});
     }
 
     async deleteUser(userId: ObjectId): Promise<User> {
         return await this.userModel.findByIdAndUpdate({_id: userId}, {status: Status.BLOCKED}, {new: true});
+    }
+
+    validUserDetails(user: User): string {
+        const regexmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        if (!regexmail.test(user.mail))
+          throw new HttpException("מייל לא תקין", HttpStatus.BAD_REQUEST);
+        return "ok";
     }
 }
