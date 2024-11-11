@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
-import { Status } from "./deals.dto";
+import { Status } from "../generic/status";
 
 @Schema({ timestamps: true })
 export class Deal extends Document {
@@ -18,6 +18,7 @@ export class Deal extends Document {
     required: true
   })
   phone: string;
+
   @Prop({
     required: true
   })
@@ -28,17 +29,17 @@ export class Deal extends Document {
   })
   city: string;
 
-  @Prop({
-    required: true
-  })
+  @Prop()
   website: string;
 
   @Prop({
     required: true
   })
   logo: string;
+  
   @Prop({
-    required: true
+    required: true,
+    default: Status.CONNECTED
   })
   status: Status;
 }

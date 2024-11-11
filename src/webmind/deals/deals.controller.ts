@@ -5,7 +5,6 @@ import { ObjectId } from 'mongoose';
 
 @Controller('deal')
 export class DealController {
-
     constructor(private readonly dealService: DealService) { }
 
     @Post("")
@@ -16,6 +15,7 @@ export class DealController {
         throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
+
     @Get("")
     async getAllDeals() {
       try {
@@ -25,7 +25,7 @@ export class DealController {
       }
     }
 
-    @Get("auth/:id")
+    @Get(":id")
     async getDealById(@Param('id') id: ObjectId) {
       try {
         return this.dealService.getDealById(id);
@@ -43,10 +43,19 @@ export class DealController {
       }
     }
     
-    @Put("status/:id")
-    async updateDealStatus(@Param('id') id: ObjectId, @Body() deal: Deal) {
+    @Put("stop/:id")
+    async updateDealToStopPublish(@Param('id') id: ObjectId) {
       try {
-        return this.dealService.updateDealDetails(id, deal );
+        return this.dealService.updateDealToStopPublish(id);
+      } catch (error) {
+        throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
+
+    @Put("publish/:id")
+    async updateDealToPublish(@Param('id') id: ObjectId) {
+      try {
+        return this.dealService.updateDealToPublish(id);
       } catch (error) {
         throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
       }

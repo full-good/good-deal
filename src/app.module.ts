@@ -3,10 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MessageModule } from './fullgood/message/message.module';
-import { UserModule } from './fullgood/user/user.module';
+import { MessageModule } from './webmind/message/message.module';
+import { UserModule } from './webmind/user/user.module';
 import { LoggerMiddleware } from './loger.middleware';
-import { DealModule } from './fullgood/deals/deals.module';
+import { DealModule } from './webmind/deals/deals.module';
 
 @Module({
   imports: [  
